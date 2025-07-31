@@ -2,13 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plan de Clase Interactivo</title>
+  <title>Plan de Clase Interactivo - Sin JS</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -39,14 +36,6 @@
       font-size: 1em;
       color: #333;
       margin: 20px;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-
-    .info-box.active {
-      opacity: 1;
-      transform: translateY(0);
     }
 
     .circle-container {
@@ -78,14 +67,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      cursor: pointer;
       padding: 10px;
-      transition: background 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .center-circle:hover {
-      background: #43a047;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
 
     .option {
@@ -103,13 +85,6 @@
       font-weight: bold;
       cursor: pointer;
       padding: 6px;
-      transition: background 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .option:hover {
-      filter: brightness(1.05);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      outline: 2px solid rgba(255, 255, 255, 0.3);
     }
 
     .opt1 { background: #EF6E1B; top: 0%; left: 50%; transform: translate(-50%, 0); }
@@ -125,21 +100,25 @@
       height: 36px;
       margin-bottom: 6px;
     }
+
     .icon-circle i {
       font-size: 2.2em;
       color: #fff;
-      text-shadow:
-        0 0 2px #bbb,
-        0 0 2px #bbb;
-      transition: transform 0.3s, color 0.3s, text-shadow 0.3s;
     }
 
-    .option:hover .icon-circle i {
-      transform: scale(1.18) rotate(-8deg);
-      color: #f9f9f9;
-      text-shadow:
-        0 0 6px #888,
-        0 0 8px #fff;
+    input[type="radio"] {
+      display: none;
+    }
+
+    .content {
+      display: none;
+    }
+
+    #justificacion:checked ~ .main-container .info-box#box-justificacion,
+    #objetivo:checked ~ .main-container .info-box#box-objetivo,
+    #competencias:checked ~ .main-container .info-box#box-competencias,
+    #recursos:checked ~ .main-container .info-box#box-recursos {
+      display: block;
     }
 
     @media screen and (max-width: 768px) {
@@ -158,82 +137,64 @@
   </style>
 </head>
 <body>
+
+  <!-- Controles para seleccionar la sección -->
+  <input type="radio" name="panel" id="justificacion" checked>
+  <input type="radio" name="panel" id="objetivo">
+  <input type="radio" name="panel" id="competencias">
+  <input type="radio" name="panel" id="recursos">
+
   <div class="main-container">
-    <div id="infoBox" class="info-box active">
-      El curso “Procesos Evaluativos en Ciencias” parte de la necesidad de repensar las prácticas de evaluación en la enseñanza de las ciencias. Se propone una reconceptualización de la evaluación, no solo como medición, sino como una herramienta pedagógica para mejorar el aprendizaje. El curso promueve el análisis crítico y la transformación de las prácticas tradicionales, reconociendo el valor formativo, regulador y reflexivo de la evaluación.
+
+    <!-- Contenido que cambia dinámicamente -->
+    <div id="box-justificacion" class="info-box content">
+      El curso “Procesos Evaluativos en Ciencias” parte de la necesidad de repensar las prácticas de evaluación en la enseñanza de las ciencias...
+    </div>
+    <div id="box-objetivo" class="info-box content">
+      Desarrollar en los estudiantes capacidades para analizar, diseñar y aplicar procesos evaluativos...
+    </div>
+    <div id="box-competencias" class="info-box content">
+      <ul>
+        <li>Comprensión crítica de los fundamentos teóricos...</li>
+        <li>Diseño de instrumentos pertinentes...</li>
+        <li>Reflexión sobre el impacto evaluativo...</li>
+        <li>Disposición hacia la evaluación formativa...</li>
+      </ul>
+    </div>
+    <div id="box-recursos" class="info-box content">
+      <ul>
+        <li>Textos académicos (Santos Guerra, etc.)</li>
+        <li>Material multimedia</li>
+        <li>OVA y recursos interactivos</li>
+        <li>Talleres y análisis de casos</li>
+      </ul>
     </div>
 
+    <!-- Navegación en círculo -->
     <div class="circle-container">
-      <div class="center-circle" onclick="resetInfo()">PLAN<br>DE CLASE</div>
+      <div class="center-circle">PLAN<br>DE CLASE</div>
 
-      <!-- Justificación -->
-      <div class="option opt1" onclick="showInfo('justificacion')">
-        <span class="icon-circle">
-          <i class="fas fa-lightbulb"></i>
-        </span>
+      <label class="option opt1" for="justificacion">
+        <span class="icon-circle"><i class="fas fa-lightbulb"></i></span>
         Justificación
-      </div>
+      </label>
 
-      <!-- Objetivo -->
-      <div class="option opt2" onclick="showInfo('objetivo')">
-        <span class="icon-circle">
-          <i class="fas fa-clipboard-list"></i>
-        </span>
+      <label class="option opt2" for="objetivo">
+        <span class="icon-circle"><i class="fas fa-clipboard-list"></i></span>
         Objetivo
-      </div>
+      </label>
 
-      <!-- Competencias -->
-      <div class="option opt3" onclick="showInfo('competencias')">
-        <span class="icon-circle">
-          <i class="fas fa-award"></i>
-        </span>
+      <label class="option opt3" for="competencias">
+        <span class="icon-circle"><i class="fas fa-award"></i></span>
         Competencias
-      </div>
+      </label>
 
-      <!-- Recursos -->
-      <div class="option opt4" onclick="showInfo('recursos')">
-        <span class="icon-circle">
-          <i class="fas fa-book"></i>
-        </span>
+      <label class="option opt4" for="recursos">
+        <span class="icon-circle"><i class="fas fa-book"></i></span>
         Recursos
-      </div>
+      </label>
     </div>
+
   </div>
-
-  <script>
-    const infoBox = document.getElementById('infoBox');
-
-    const infoData = {
-      justificacion: `El curso “Procesos Evaluativos en Ciencias” parte de la necesidad de repensar las prácticas de evaluación en la enseñanza de las ciencias. Se propone una reconceptualización de la evaluación, no solo como medición, sino como una herramienta pedagógica para mejorar el aprendizaje. El curso promueve el análisis crítico y la transformación de las prácticas tradicionales, reconociendo el valor formativo, regulador y reflexivo de la evaluación.`,
-
-      objetivo: `Desarrollar en los estudiantes capacidades para analizar, diseñar y aplicar procesos evaluativos contextualizados, pertinentes y coherentes con los enfoques formativos de la educación en ciencias.`,
-
-      competencias: `<ul>
-        <li>Comprensión crítica de los fundamentos teóricos y pedagógicos de la evaluación.</li>
-        <li>Capacidad para diseñar instrumentos e implementar estrategias evaluativas pertinentes.</li>
-        <li>Reflexión sobre el impacto de las prácticas evaluativas en el aprendizaje de las ciencias.</li>
-        <li>Disposición para incorporar la evaluación formativa como herramienta de mejora pedagógica.</li>
-      </ul>`,
-
-      recursos: `<ul>
-        <li>Textos académicos y científicos (Santos Guerra, Gimeno Sacristán, Tobón, Anijovich, entre otros).</li>
-        <li>Presentaciones de clase y material multimedia.</li>
-        <li>OVA (Objeto Virtual de Aprendizaje) y recursos interactivos.</li>
-        <li>Actividades prácticas, talleres y análisis de casos.</li>
-      </ul>`
-    };
-
-    function showInfo(key) {
-      infoBox.classList.remove('active');
-      setTimeout(() => {
-        infoBox.innerHTML = infoData[key];
-        infoBox.classList.add('active');
-      }, 200);
-    }
-
-    function resetInfo() {
-      showInfo('justificacion');
-    }
-  </script>
 </body>
 </html>
