@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan de Clase Interactivo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+    }
+
+    .main-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-wrap: wrap;
+      padding: 20px;
+    }
+
+    .info-box {
+      flex: 1;
+      min-width: 300px;
+      max-width: 500px;
+      background: #fff;
+      border: 2px solid #4CAF50;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 24px 20px;
+      font-size: 1em;
+      color: #333;
+      margin: 20px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .info-box.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .circle-container {
+      position: relative;
+      flex: 1;
+      min-width: 300px;
+      max-width: 400px;
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 3px solid #ccc;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin: 20px;
+    }
+
+    .center-circle {
+      position: absolute;
+      width: 38%;
+      height: 38%;
+      background: #4CAF50;
+      color: white;
+      font-weight: bold;
+      font-size: 1em;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      padding: 10px;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .center-circle:hover {
+      background: #43a047;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .option {
+      position: absolute;
+      width: 28%;
+      height: 28%;
+      border-radius: 50%;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.75em;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 6px;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .option:hover {
+      filter: brightness(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      outline: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .opt1 { background: #EF6E1B; top: 0%; left: 50%; transform: translate(-50%, 0); }
+    .opt2 { background: #1BEFEB; top: 50%; left: 100%; transform: translate(-100%, -50%); }
+    .opt3 { background: #9122A3; bottom: 0%; left: 50%; transform: translate(-50%, 0); }
+    .opt4 { background: #22A322; top: 50%; left: 0%; transform: translate(0, -50%); }
+
+    .icon-circle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      margin-bottom: 6px;
+    }
+    .icon-circle i {
+      font-size: 2.2em;
+      color: #fff;
+      text-shadow:
+        0 0 2px #bbb,
+        0 0 2px #bbb;
+      transition: transform 0.3s, color 0.3s, text-shadow 0.3s;
+    }
+
+    .option:hover .icon-circle i {
+      transform: scale(1.18) rotate(-8deg);
+      color: #f9f9f9;
+      text-shadow:
+        0 0 6px #888,
+        0 0 8px #fff;
+    }
+
+    @media screen and (max-width: 768px) {
+      .main-container {
+        flex-direction: column;
+      }
+
+      .info-box {
+        order: 2;
+      }
+
+      .circle-container {
+        order: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div id="infoBox" class="info-box active">
+      El curso “Procesos Evaluativos en Ciencias” parte de la necesidad de repensar las prácticas de evaluación en la enseñanza de las ciencias. Se propone una reconceptualización de la evaluación, no solo como medición, sino como una herramienta pedagógica para mejorar el aprendizaje. El curso promueve el análisis crítico y la transformación de las prácticas tradicionales, reconociendo el valor formativo, regulador y reflexivo de la evaluación.
+    </div>
+
+    <div class="circle-container">
+      <div class="center-circle" onclick="resetInfo()">PLAN<br>DE CLASE</div>
+
+      <!-- Justificación -->
+      <div class="option opt1" onclick="showInfo('justificacion')">
+        <span class="icon-circle">
+          <i class="fas fa-lightbulb"></i>
+        </span>
+        Justificación
+      </div>
+
+      <!-- Objetivo -->
+      <div class="option opt2" onclick="showInfo('objetivo')">
+        <span class="icon-circle">
+          <i class="fas fa-clipboard-list"></i>
+        </span>
+        Objetivo
+      </div>
+
+      <!-- Competencias -->
+      <div class="option opt3" onclick="showInfo('competencias')">
+        <span class="icon-circle">
+          <i class="fas fa-award"></i>
+        </span>
+        Competencias
+      </div>
+
+      <!-- Recursos -->
+      <div class="option opt4" onclick="showInfo('recursos')">
+        <span class="icon-circle">
+          <i class="fas fa-book"></i>
+        </span>
+        Recursos
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const infoBox = document.getElementById('infoBox');
+
+    const infoData = {
+      justificacion: `El curso “Procesos Evaluativos en Ciencias” parte de la necesidad de repensar las prácticas de evaluación en la enseñanza de las ciencias. Se propone una reconceptualización de la evaluación, no solo como medición, sino como una herramienta pedagógica para mejorar el aprendizaje. El curso promueve el análisis crítico y la transformación de las prácticas tradicionales, reconociendo el valor formativo, regulador y reflexivo de la evaluación.`,
+
+      objetivo: `Desarrollar en los estudiantes capacidades para analizar, diseñar y aplicar procesos evaluativos contextualizados, pertinentes y coherentes con los enfoques formativos de la educación en ciencias.`,
+
+      competencias: `<ul>
+        <li>Comprensión crítica de los fundamentos teóricos y pedagógicos de la evaluación.</li>
+        <li>Capacidad para diseñar instrumentos e implementar estrategias evaluativas pertinentes.</li>
+        <li>Reflexión sobre el impacto de las prácticas evaluativas en el aprendizaje de las ciencias.</li>
+        <li>Disposición para incorporar la evaluación formativa como herramienta de mejora pedagógica.</li>
+      </ul>`,
+
+      recursos: `<ul>
+        <li>Textos académicos y científicos (Santos Guerra, Gimeno Sacristán, Tobón, Anijovich, entre otros).</li>
+        <li>Presentaciones de clase y material multimedia.</li>
+        <li>OVA (Objeto Virtual de Aprendizaje) y recursos interactivos.</li>
+        <li>Actividades prácticas, talleres y análisis de casos.</li>
+      </ul>`
+    };
+
+    function showInfo(key) {
+      infoBox.classList.remove('active');
+      setTimeout(() => {
+        infoBox.innerHTML = infoData[key];
+        infoBox.classList.add('active');
+      }, 200);
+    }
+
+    function resetInfo() {
+      showInfo('justificacion');
+    }
+  </script>
+</body>
+</html>
