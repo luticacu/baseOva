@@ -10,8 +10,8 @@
   <style>
     /* Variables de color y espacio */
     :root {
-      --color-primary: #4CAF50;
-      --color-primary-light: #70BF4B;
+      --color-primary: #4c8c42;
+      --color-primary-light: #70bf4b;
       --color-accent1: #EF6E1B;
       --color-accent2: #1BEFEB;
       --color-accent3: #9122A3;
@@ -24,7 +24,10 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--bg-page);
+      /* Fondo con patrón repetido de iconos de ciencias naturales */
+      background-color: var(--bg-page);
+      background-image: url('images/science-pattern.png'); /* Reemplaza con tu imagen */
+      background-repeat: repeat;
       color: var(--text-default);
       min-height: 100vh;
       display: flex;
@@ -68,15 +71,16 @@
       background: var(--color-primary-light);
       border-left-color: #fff;
     }
-    .sidebar label i {
-      font-size: 1.25rem;
-    }
-    /* Área de contenido */
+    .sidebar label i { font-size: 1.25rem; }
+    /* Área de contenido centrada */
     .content-area {
       flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 2rem;
       overflow-y: auto;
-      background: var(--bg-page);
+      background: transparent;
     }
     .info-box {
       background: var(--bg-card);
@@ -85,7 +89,7 @@
       padding: 1.5rem;
       font-size: 1rem;
       max-width: 700px;
-      margin: auto;
+      width: 100%;
       display: none;
       transition: opacity var(--transition), transform var(--transition);
       opacity: 0;
@@ -103,7 +107,12 @@
     /* Responsive: sidebar arriba */
     @media screen and (max-width: 768px) {
       body { flex-direction: column; }
-      .sidebar { width: 100%; flex-direction: row; justify-content: space-around; padding: 1rem 0; }
+      .sidebar {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 1rem 0;
+      }
       .sidebar label { border-left: none; border-bottom: 3px solid transparent; }
       #justificacion:checked ~ .main-container .sidebar label[for="justificacion"],
       #objetivo:checked      ~ .main-container .sidebar label[for="objetivo"],
@@ -126,9 +135,9 @@
     <!-- Sidebar de navegación -->
     <nav class="sidebar">
       <label for="justificacion"><i class="fas fa-lightbulb"></i><span>Justificación</span></label>
-      <label for="objetivo"><i class="fas fa-clipboard-list"></i><span>Objetivo</span></label>
-      <label for="competencias"><i class="fas fa-award"></i><span>Competencias</span></label>
-      <label for="recursos"><i class="fas fa-book"></i><span>Recursos</span></label>
+      <label for="objetivo"><i class="fas fa-clipboard-list"></i><span>Objetivos del curso</span></label>
+      <label for="competencias"><i class="fas fa-award"></i><span>Competencias transversales</span></label>
+      <label for="recursos"><i class="fas fa-book"></i><span>Resultados de aprendizaje</span></label>
     </nav>
 
     <!-- Área de contenido -->
