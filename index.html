@@ -24,18 +24,15 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Inter', sans-serif;
-      /* Fondo con patrón repetido de iconos de ciencias naturales */
       background-color: var(--bg-page);
-      background-image: url('images/science-pattern.png'); /* Reemplaza con tu imagen */
+      background-image: url('images/science-pattern.png'); /* Patrón de ciencia */
       background-repeat: repeat;
       color: var(--text-default);
       min-height: 100vh;
       display: flex;
       align-items: stretch;
     }
-    /* Ocultar radios */
     input[type="radio"] { display: none; }
-    /* Contenedor principal: sidebar + contenido */
     .main-container {
       display: flex;
       flex: 1;
@@ -47,7 +44,12 @@
       background: var(--color-primary);
       display: flex;
       flex-direction: column;
-      padding-top: 2rem;
+      justify-content: space-between; /* distribuye nav y footer */
+      padding: 2rem 0;
+    }
+    .sidebar .nav-items {
+      display: flex;
+      flex-direction: column;
     }
     .sidebar label {
       display: flex;
@@ -60,10 +62,7 @@
       transition: background var(--transition);
       border-left: 4px solid transparent;
     }
-    .sidebar label:hover {
-      background: rgba(255,255,255,0.1);
-    }
-    /* Indicador de sección activa */
+    .sidebar label:hover { background: rgba(255,255,255,0.1); }
     #justificacion:checked ~ .main-container .sidebar label[for="justificacion"],
     #objetivo:checked      ~ .main-container .sidebar label[for="objetivo"],
     #competencias:checked  ~ .main-container .sidebar label[for="competencias"],
@@ -72,7 +71,20 @@
       border-left-color: #fff;
     }
     .sidebar label i { font-size: 1.25rem; }
-    /* Área de contenido centrada */
+    .sidebar-footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.7);
+    }
+    .sidebar-footer a {
+      color: rgba(255,255,255,0.7);
+      margin: 0 0.3rem;
+      transition: color var(--transition);
+    }
+    .sidebar-footer a:hover {
+      color: #fff;
+    }
     .content-area {
       flex: 1;
       display: flex;
@@ -86,16 +98,57 @@
       background: var(--bg-card);
       border-radius: var(--border-radius);
       box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-      padding: 1.5rem;
-      font-size: 1rem;
+      overflow: hidden;
       max-width: 700px;
       width: 100%;
-      display: none;
-      transition: opacity var(--transition), transform var(--transition);
       opacity: 0;
       transform: translateY(20px);
+      transition: opacity var(--transition), transform var(--transition);
+      display: none;
     }
-    /* Mostrar sección activa */
+    .info-box .info-header {
+      background: var(--color-primary-light);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+    }
+    .info-box .info-header i { font-size: 1.5rem; }
+    .info-box .info-header h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 0;
+    }
+    .info-box .info-content {
+      padding: 1.5rem;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    .info-box .info-content ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .info-box .info-content ul li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .info-box .info-content ul li::before {
+      content: '\f058';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      left: 0;
+      color: var(--color-primary);
+    }
+    .info-box .divider {
+      height: 4px;
+      background: var(--color-primary);
+      border: none;
+      margin: 0;
+    }
     #justificacion:checked ~ .main-container .content-area #box-justificacion,
     #objetivo:checked      ~ .main-container .content-area #box-objetivo,
     #competencias:checked  ~ .main-container .content-area #box-competencias,
@@ -104,16 +157,16 @@
       opacity: 1;
       transform: translateY(0);
     }
-    /* Responsive: sidebar arriba */
     @media screen and (max-width: 768px) {
       body { flex-direction: column; }
       .sidebar {
         width: 100%;
         flex-direction: row;
-        justify-content: space-around;
-        padding: 1rem 0;
+        justify-content: space-between;
+        padding: 1rem;
       }
-      .sidebar label { border-left: none; border-bottom: 3px solid transparent; }
+      .sidebar .nav-items { flex-direction: row; }
+      .sidebar label { border-left: none; border-bottom: 3px solid transparent; flex: 1; justify-content: center; }
       #justificacion:checked ~ .main-container .sidebar label[for="justificacion"],
       #objetivo:checked      ~ .main-container .sidebar label[for="objetivo"],
       #competencias:checked  ~ .main-container .sidebar label[for="competencias"],
@@ -121,48 +174,83 @@
         background: var(--color-primary-light);
         border-bottom-color: #fff;
       }
+      .sidebar-footer { display: none; }
     }
   </style>
 </head>
 <body>
-  <!-- Radios para controlar las secciones -->
   <input type="radio" name="panel" id="justificacion" checked>
   <input type="radio" name="panel" id="objetivo">
   <input type="radio" name="panel" id="competencias">
   <input type="radio" name="panel" id="recursos">
 
   <div class="main-container">
-    <!-- Sidebar de navegación -->
     <nav class="sidebar">
-      <label for="justificacion"><i class="fas fa-lightbulb"></i><span>Justificación</span></label>
-      <label for="objetivo"><i class="fas fa-clipboard-list"></i><span>Objetivos del curso</span></label>
-      <label for="competencias"><i class="fas fa-award"></i><span>Competencias transversales</span></label>
-      <label for="recursos"><i class="fas fa-book"></i><span>Resultados de aprendizaje</span></label>
+      <div class="nav-items">
+        <label for="justificacion"><i class="fas fa-lightbulb"></i><span>Justificación</span></label>
+        <label for="objetivo"><i class="fas fa-clipboard-list"></i><span>Objetivos del curso</span></label>
+        <label for="competencias"><i class="fas fa-award"></i><span>Competencias transversales</span></label>
+        <label for="recursos"><i class="fas fa-book"></i><span>Resultados de aprendizaje
+        </span></label>
+      </div>
+      <div class="sidebar-footer">
+        <img src="https://www.unicordoba.edu.co/wp-content/uploads/2021/06/Escudo-Universidad-de-Cordoba-1-1343x2048.png" alt="Logo Universidad de Córdoba" style="max-width:80px; margin: 0 auto 0.5rem; display:block;">
+        <p>© 2025 Universidad de Córdoba</p>
+        <p>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-facebook"></i></a>
+        </p>
+      </div>
     </nav>
 
-    <!-- Área de contenido -->
     <section class="content-area">
       <div id="box-justificacion" class="info-box">
-        El curso “Procesos Evaluativos en Ciencias” parte de la necesidad de repensar las prácticas de evaluación en la enseñanza de las ciencias...
+        <div class="info-header"><i class="fas fa-lightbulb"></i><h2>Justificación</h2></div>
+        <hr class="divider">
+        <div class="info-content">
+          <p>El curso de procesos evaluativos de las ciencias naturales en la formación del maestrante en el programa de Maestría en didáctica de las ciencias 
+naturales ubicado en el tercer semestre, atiende a la necesidad contextual de una comprensión integral de los principios básicos de la evaluación 
+del aprendizaje, amparada en una perspectiva didáctica que direccione el trabajo del docente de las ciencias desde diversos abordajes</p>
+        </div>
       </div>
       <div id="box-objetivo" class="info-box">
-        Desarrollar en los estudiantes capacidades para analizar, diseñar y aplicar procesos evaluativos...
+        <div class="info-header"><i class="fas fa-clipboard-list"></i><h2>Objetivos</h2></div>
+        <hr class="divider">
+        <div class="info-content">
+        <div class="info-content">
+          <ul>
+            <li>Describir las prácticas evaluativas del aprendizaje en ciencias y sus reconfiguraciones en el currículo escolar</li>
+            <li>Analizar los aportes de una evaluación del aprendizaje de las ciencias orientada al aprendizaje y la metacognición</li>
+            <li>Diseñar instrumentos de evaluación formativa como la rúbrica y el portafolios como oportunidades de aprender las ciencias en el contexto escolar</li>
+            <li>Diseñar preguntas como herramientas cognitivas y potenciadoras del aprendizaje de las ciencias en el contexto escolar.</li>
+          </ul>
+        </div>
+        </div>
       </div>
       <div id="box-competencias" class="info-box">
-        <ul>
-          <li>Comprensión crítica de los fundamentos teóricos...</li>
-          <li>Diseño de instrumentos pertinentes...</li>
-          <li>Reflexión sobre el impacto evaluativo...</li>
-          <li>Disposición hacia la evaluación formativa...</li>
-        </ul>
+        <div class="info-header"><i class="fas fa-award"></i><h2>Competencias transversales</h2></div>
+        <hr class="divider">
+        <div class="info-content">
+          <ul>
+            <li>Comunicativa: Actividades de lectura, argumentación y producción textual</li>
+            <li>Competencia Ciudadana, Paz, Resolución de Conflictos y Procesos de reconciliación y sana convivencia: Trabajo en grupo, Trabajo 
+colaborativo, respeto de las ideas, puntos de vista, argumentos y comportamientos de los compañeros, simulaciones (microclases)</li>
+            <li>Competencia Emprendimiento e Innovación: actividades propositivas a través de Aprendizaje basado en problemas, estudio de casos, 
+juego de roles y retos.  </li>
+          </ul>
+        </div>
       </div>
       <div id="box-recursos" class="info-box">
-        <ul>
-          <li>Textos académicos (Santos Guerra, etc.)</li>
-          <li>Material multimedia</li>
-          <li>OVA y recursos interactivos</li>
-          <li>Talleres y análisis de casos</li>
-        </ul>
+        <div class="info-header"><i class="fas fa-book"></i><h2>Recursos</h2></div>
+        <hr class="divider">
+        <div class="info-content">
+          <ul>
+            <li>Textos académicos</li>
+            <li>Material multimedia</li>
+            <li>OVA y recursos interactivos</li>
+            <li>Talleres y análisis de casos</li>
+          </ul>
+        </div>
       </div>
     </section>
   </div>
