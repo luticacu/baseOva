@@ -3,198 +3,159 @@
 <head>
   <meta charset="UTF-8">
   <title>Plan de Clase Interactivo - Sin JS</title>
+  <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #f9f9f9;
+    /* Variables de color y espacio */
+    :root {
+      --color-primary: #4CAF50;
+      --color-primary-light: #70BF4B;
+      --color-accent1: #EF6E1B;
+      --color-accent2: #1BEFEB;
+      --color-accent3: #9122A3;
+      --bg-page: #f4f7fa;
+      --bg-card: #ffffff;
+      --text-default: #333333;
+      --border-radius: 12px;
+      --transition: 0.3s ease;
     }
-
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-page);
+      color: var(--text-default);
+      min-height: 100vh;
+      display: flex;
+      align-items: stretch;
+    }
+    /* Ocultar radios */
+    input[type="radio"] { display: none; }
+    /* Contenedor principal: sidebar + contenido */
     .main-container {
       display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      flex-wrap: wrap;
-      padding: 20px;
-    }
-
-    .info-box {
       flex: 1;
-      min-width: 300px;
-      max-width: 500px;
-      background: #fff;
-      border: 2px solid #4CAF50;
-      border-radius: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      padding: 24px 20px;
-      font-size: 1em;
-      color: #333;
-      margin: 20px;
+      overflow: hidden;
     }
-
-    .circle-container {
-      position: relative;
-      flex: 1;
-      min-width: 300px;
-      max-width: 400px;
-      aspect-ratio: 1/1;
-      border-radius: 50%;
-      background: #ffffff;
-      border: 3px solid #ccc;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      margin: 20px;
-    }
-
-    .center-circle {
-      position: absolute;
-      width: 38%;
-      height: 38%;
-      background: #4CAF50;
-      color: white;
-      font-weight: bold;
-      font-size: 1em;
-      border-radius: 50%;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 10px;
-    }
-
-    .option {
-      position: absolute;
-      width: 28%;
-      height: 28%;
-      border-radius: 50%;
-      color: white;
+    /* Sidebar de navegación */
+    .sidebar {
+      width: 200px;
+      background: var(--color-primary);
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-size: 0.75em;
-      font-weight: bold;
-      cursor: pointer;
-      padding: 6px;
+      padding-top: 2rem;
     }
-
-    .opt1 { background: #EF6E1B; top: 0%; left: 50%; transform: translate(-50%, 0); }
-    .opt2 { background: #1BEFEB; top: 50%; left: 100%; transform: translate(-100%, -50%); }
-    .opt3 { background: #9122A3; bottom: 0%; left: 50%; transform: translate(-50%, 0); }
-    .opt4 { background: #22A322; top: 50%; left: 0%; transform: translate(0, -50%); }
-
-    .icon-circle {
+    .sidebar label {
       display: flex;
       align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      margin-bottom: 6px;
-    }
-
-    .icon-circle i {
-      font-size: 2.2em;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
       color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition);
+      border-left: 4px solid transparent;
     }
-
-    input[type="radio"] {
+    .sidebar label:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    /* Indicador de sección activa */
+    #justificacion:checked ~ .main-container .sidebar label[for="justificacion"],
+    #objetivo:checked      ~ .main-container .sidebar label[for="objetivo"],
+    #competencias:checked  ~ .main-container .sidebar label[for="competencias"],
+    #recursos:checked      ~ .main-container .sidebar label[for="recursos"] {
+      background: var(--color-primary-light);
+      border-left-color: #fff;
+    }
+    .sidebar label i {
+      font-size: 1.25rem;
+    }
+    /* Área de contenido */
+    .content-area {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+      background: var(--bg-page);
+    }
+    .info-box {
+      background: var(--bg-card);
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      font-size: 1rem;
+      max-width: 700px;
+      margin: auto;
       display: none;
+      transition: opacity var(--transition), transform var(--transition);
+      opacity: 0;
+      transform: translateY(20px);
     }
-
-    .content {
-      display: none;
-    }
-
-    #justificacion:checked ~ .main-container .info-box#box-justificacion,
-    #objetivo:checked ~ .main-container .info-box#box-objetivo,
-    #competencias:checked ~ .main-container .info-box#box-competencias,
-    #recursos:checked ~ .main-container .info-box#box-recursos {
+    /* Mostrar sección activa */
+    #justificacion:checked ~ .main-container .content-area #box-justificacion,
+    #objetivo:checked      ~ .main-container .content-area #box-objetivo,
+    #competencias:checked  ~ .main-container .content-area #box-competencias,
+    #recursos:checked      ~ .main-container .content-area #box-recursos {
       display: block;
+      opacity: 1;
+      transform: translateY(0);
     }
-
+    /* Responsive: sidebar arriba */
     @media screen and (max-width: 768px) {
-      .main-container {
-        flex-direction: column;
-      }
-
-      .info-box {
-        order: 2;
-      }
-
-      .circle-container {
-        order: 1;
+      body { flex-direction: column; }
+      .sidebar { width: 100%; flex-direction: row; justify-content: space-around; padding: 1rem 0; }
+      .sidebar label { border-left: none; border-bottom: 3px solid transparent; }
+      #justificacion:checked ~ .main-container .sidebar label[for="justificacion"],
+      #objetivo:checked      ~ .main-container .sidebar label[for="objetivo"],
+      #competencias:checked  ~ .main-container .sidebar label[for="competencias"],
+      #recursos:checked      ~ .main-container .sidebar label[for="recursos"] {
+        background: var(--color-primary-light);
+        border-bottom-color: #fff;
       }
     }
   </style>
 </head>
 <body>
-
-  <!-- Controles para seleccionar la sección -->
+  <!-- Radios para controlar las secciones -->
   <input type="radio" name="panel" id="justificacion" checked>
   <input type="radio" name="panel" id="objetivo">
   <input type="radio" name="panel" id="competencias">
   <input type="radio" name="panel" id="recursos">
 
   <div class="main-container">
+    <!-- Sidebar de navegación -->
+    <nav class="sidebar">
+      <label for="justificacion"><i class="fas fa-lightbulb"></i><span>Justificación</span></label>
+      <label for="objetivo"><i class="fas fa-clipboard-list"></i><span>Objetivo</span></label>
+      <label for="competencias"><i class="fas fa-award"></i><span>Competencias</span></label>
+      <label for="recursos"><i class="fas fa-book"></i><span>Recursos</span></label>
+    </nav>
 
-    <!-- Contenido que cambia dinámicamente -->
-    <div id="box-justificacion" class="info-box content">
-      El curso “Procesos Evaluativos en Ciencias” parte de la necesidad de repensar las prácticas de evaluación en la enseñanza de las ciencias...
-    </div>
-    <div id="box-objetivo" class="info-box content">
-      Desarrollar en los estudiantes capacidades para analizar, diseñar y aplicar procesos evaluativos...
-    </div>
-    <div id="box-competencias" class="info-box content">
-      <ul>
-        <li>Comprensión crítica de los fundamentos teóricos...</li>
-        <li>Diseño de instrumentos pertinentes...</li>
-        <li>Reflexión sobre el impacto evaluativo...</li>
-        <li>Disposición hacia la evaluación formativa...</li>
-      </ul>
-    </div>
-    <div id="box-recursos" class="info-box content">
-      <ul>
-        <li>Textos académicos (Santos Guerra, etc.)</li>
-        <li>Material multimedia</li>
-        <li>OVA y recursos interactivos</li>
-        <li>Talleres y análisis de casos</li>
-      </ul>
-    </div>
-
-    <!-- Navegación en círculo -->
-    <div class="circle-container">
-      <div class="center-circle">PLAN<br>DE CLASE</div>
-
-      <label class="option opt1" for="justificacion">
-        <span class="icon-circle"><i class="fas fa-lightbulb"></i></span>
-        Justificación
-      </label>
-
-      <label class="option opt2" for="objetivo">
-        <span class="icon-circle"><i class="fas fa-clipboard-list"></i></span>
-        Objetivo
-      </label>
-
-      <label class="option opt3" for="competencias">
-        <span class="icon-circle"><i class="fas fa-award"></i></span>
-        Competencias
-      </label>
-
-      <label class="option opt4" for="recursos">
-        <span class="icon-circle"><i class="fas fa-book"></i></span>
-        Recursos
-      </label>
-    </div>
-
+    <!-- Área de contenido -->
+    <section class="content-area">
+      <div id="box-justificacion" class="info-box">
+        El curso “Procesos Evaluativos en Ciencias” parte de la necesidad de repensar las prácticas de evaluación en la enseñanza de las ciencias...
+      </div>
+      <div id="box-objetivo" class="info-box">
+        Desarrollar en los estudiantes capacidades para analizar, diseñar y aplicar procesos evaluativos...
+      </div>
+      <div id="box-competencias" class="info-box">
+        <ul>
+          <li>Comprensión crítica de los fundamentos teóricos...</li>
+          <li>Diseño de instrumentos pertinentes...</li>
+          <li>Reflexión sobre el impacto evaluativo...</li>
+          <li>Disposición hacia la evaluación formativa...</li>
+        </ul>
+      </div>
+      <div id="box-recursos" class="info-box">
+        <ul>
+          <li>Textos académicos (Santos Guerra, etc.)</li>
+          <li>Material multimedia</li>
+          <li>OVA y recursos interactivos</li>
+          <li>Talleres y análisis de casos</li>
+        </ul>
+      </div>
+    </section>
   </div>
 </body>
 </html>
