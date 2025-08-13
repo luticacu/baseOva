@@ -164,9 +164,19 @@
         flex-direction: row;
         justify-content: space-between;
         padding: 1rem;
+        flex-wrap: wrap; /* Permite que los elementos se ajusten si no caben */
       }
-      .sidebar .nav-items { flex-direction: row; }
-      .sidebar label { border-left: none; border-bottom: 3px solid transparent; flex: 1; justify-content: center; }
+      .sidebar .nav-items { 
+        flex-direction: row; 
+        flex: 1; /* Distribuye los elementos de manera uniforme */
+      }
+      .sidebar label { 
+        border-left: none; 
+        border-bottom: 3px solid transparent; 
+        flex: 1; /* Asegura que cada botón ocupe el mismo espacio */
+        justify-content: center; 
+        max-width: 25%; /* Limita el ancho de cada botón al 25% */
+      }
       #justificacion:checked ~ .main-container .sidebar label[for="justificacion"],
       #objetivo:checked      ~ .main-container .sidebar label[for="objetivo"],
       #competencias:checked  ~ .main-container .sidebar label[for="competencias"],
